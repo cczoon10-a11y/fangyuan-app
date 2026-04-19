@@ -27,18 +27,21 @@ jobs:
     - name: Build User App APK
       run: |
         cd mobile-user
+        flutter create . --platforms android
         flutter pub get
         flutter build apk --release
         
     - name: Build Admin App APK
       run: |
         cd mobile-admin
+        flutter create . --platforms android
         flutter pub get
         flutter build apk --release
         
     - name: Build Agent App APK
       run: |
         cd mobile-agent
+        flutter create . --platforms android
         flutter pub get
         flutter build apk --release
         

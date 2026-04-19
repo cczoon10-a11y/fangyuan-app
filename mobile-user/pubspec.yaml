@@ -32,16 +32,16 @@ dependencies:
   cached_network_image: ^3.3.1
   flutter_svg: ^2.0.9
   shimmer: ^3.0.0
-  fluttertoast: ^10.1.0
+  fluttertoast: any
   image_picker: ^1.0.7
   carousel_slider: ^4.2.1
 
   # 地图
   google_maps_flutter: ^2.5.3
-  geolocator: ^10.1.0
+  geolocator: any
 
   # 国际化
-  intl: ^0.19.0
+  intl: any
 
   # 工具
   equatable: ^2.0.5
@@ -81,3 +81,6 @@ flutter:
   #         weight: 600
   #       - asset: assets/fonts/Inter-Bold.ttf
   #         weight: 700
+
+dependency_overrides:
+  vector_math: 2.1.4
