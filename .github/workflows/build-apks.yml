@@ -1,0 +1,61 @@
+name: Build Flutter APKs
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+        
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.x'
+        channel: 'stable'
+        
+    - name: Build User App APK
+      run: |
+        cd mobile-user
+        flutter pub get
+        flutter build apk --release
+        
+    - name: Build Admin App APK
+      run: |
+        cd mobile-admin
+        flutter pub get
+        flutter build apk --release
+        
+    - name: Build Agent App APK
+      run: |
+        cd mobile-agent
+        flutter pub get
+        flutter build apk --release
+        
+    - name: Upload User App APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: User-App-Release-APK
+        path: mobile-user/build/app/outputs/flutter-apk/app-release.apk
+        
+    - name: Upload Admin App APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: Admin-App-Release-APK
+        path: mobile-admin/build/app/outputs/flutter-apk/app-release.apk
+        
+    - name: Upload Agent App APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: Agent-App-Release-APK
+        path: mobile-agent/build/app/outputs/flutter-apk/app-release.apk

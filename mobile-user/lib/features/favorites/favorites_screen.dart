@@ -1,0 +1,13 @@
+import 'package:flutter/material.dart';
+
+class FavoritesScreen extends StatelessWidget {
+  const FavoritesScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('我的收藏'), automaticallyImplyLeading: false),
+      body: const Center(child: Text('♥️ 收藏列表 - 待开发')),
+    );
+  }
+}

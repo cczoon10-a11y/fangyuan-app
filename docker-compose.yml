@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  # ========== PostgreSQL ==========
+  postgres:
+    image: postgres:15-alpine
+    container_name: fangyuan_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-fangyuan}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-fangyuan_dev_pwd_change_me}
+      POSTGRES_DB: ${DB_DATABASE:-fangyuan}
+      TZ: Asia/Phnom_Penh
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-fangyuan}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - fangyuan_net
+
+  # ========== Redis ==========
+  redis:
+    image: redis:7-alpine
+    container_name: fangyuan_redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - fangyuan_net
+
+  # ========== 后端 NestJS ==========
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fangyuan_backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: 3000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: ${DB_USERNAME:-fangyuan}
+      DB_PASSWORD: ${DB_PASSWORD:-fangyuan_dev_pwd_change_me}
+      DB_DATABASE: ${DB_DATABASE:-fangyuan}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: ${JWT_SECRET:-CHANGE_THIS_SECRET_IN_PRODUCTION_AT_LEAST_64_CHARS}
+      JWT_EXPIRES_IN: 7d
+      CORS_ORIGINS: ${CORS_ORIGINS:-*}
+    volumes:
+      - ./backend/uploads:/app/uploads
+    ports:
+      - "${BACKEND_PORT:-3000}:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - fangyuan_net
+
+  # ========== Nginx ==========
+  nginx:
+    image: nginx:alpine
+    container_name: fangyuan_nginx
+    restart: unless-stopped
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/proxy_params.conf:/etc/nginx/proxy_params.conf:ro
+      - ./backend/uploads:/var/www/uploads:ro
+    ports:
+      - "${NGINX_PORT:-80}:80"
+    depends_on:
+      - backend
+    networks:
+      - fangyuan_net
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  fangyuan_net:
+    driver: bridge

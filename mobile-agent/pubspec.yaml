@@ -1,0 +1,47 @@
+name: fangyuan_agent
+description: 方·苑 FANGYUAN 经纪人 App
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+  flutter: '>=3.16.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  flutter_riverpod: ^2.4.9
+  go_router: ^13.0.0
+
+  dio: ^5.4.0
+  socket_io_client: ^2.0.3+1
+
+  cached_network_image: ^3.3.0
+  image_picker: ^1.0.7
+
+  shared_preferences: ^2.2.2
+  flutter_secure_storage: ^9.0.0
+
+  shimmer: ^3.0.0
+  flutter_svg: ^2.0.9
+  fluttertoast: ^8.2.4
+
+  firebase_core: ^2.24.2
+  firebase_messaging: ^14.7.9
+
+  intl: ^0.19.0
+  equatable: ^2.0.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/

@@ -1,0 +1,59 @@
+name: Build Flutter IPAs (iOS)
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    # 必须使用 macOS 运行器，因为编译 iOS App 强依赖 Apple 的 Xcode 和 SDK
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.x'
+        channel: 'stable'
+        
+    - name: Build User App iOS (Unsigned)
+      run: |
+        cd mobile-user
+        flutter pub get
+        # 构建未签名的 iOS 产物 (不需要 Apple 开发者证书)
+        flutter build ios --release --no-codesign
+        
+    - name: Package User App IPA
+      run: |
+        cd mobile-user/build/ios/iphoneos
+        mkdir Payload
+        cp -r Runner.app Payload/
+        zip -r User-App-Unsigned.ipa Payload
+        
+    - name: Build Admin App iOS (Unsigned)
+      run: |
+        cd mobile-admin
+        flutter pub get
+        flutter build ios --release --no-codesign
+        
+    - name: Package Admin App IPA
+      run: |
+        cd mobile-admin/build/ios/iphoneos
+        mkdir Payload
+        cp -r Runner.app Payload/
+        zip -r Admin-App-Unsigned.ipa Payload
+        
+    - name: Upload User App IPA
+      uses: actions/upload-artifact@v3
+      with:
+        name: User-App-iOS-Unsigned-IPA
+        path: mobile-user/build/ios/iphoneos/User-App-Unsigned.ipa
+        
+    - name: Upload Admin App IPA
+      uses: actions/upload-artifact@v3
+      with:
+        name: Admin-App-iOS-Unsigned-IPA
+        path: mobile-admin/build/ios/iphoneos/Admin-App-Unsigned.ipa

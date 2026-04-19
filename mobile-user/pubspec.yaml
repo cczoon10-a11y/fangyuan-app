@@ -1,0 +1,83 @@
+name: fangyuan_user
+description: 方·苑 FANGYUAN 用户端 App
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+  flutter: ">=3.16.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # 路由
+  go_router: ^13.0.0
+
+  # 状态管理
+  flutter_riverpod: ^2.4.9
+  riverpod_annotation: ^2.3.3
+
+  # 网络
+  dio: ^5.4.0
+  pretty_dio_logger: ^1.3.1
+
+  # 存储
+  shared_preferences: ^2.2.2
+  flutter_secure_storage: ^9.0.0
+
+  # UI
+  cached_network_image: ^3.3.1
+  flutter_svg: ^2.0.9
+  shimmer: ^3.0.0
+  fluttertoast: ^10.1.0
+  image_picker: ^1.0.7
+  carousel_slider: ^4.2.1
+
+  # 地图
+  google_maps_flutter: ^2.5.3
+  geolocator: ^10.1.0
+
+  # 国际化
+  intl: ^0.19.0
+
+  # 工具
+  equatable: ^2.0.5
+  json_annotation: ^4.8.1
+  logger: ^2.0.2
+  uuid: ^4.2.2
+
+  # WebSocket 实时
+  socket_io_client: ^2.0.3+1
+
+  # 推送(Firebase)
+  firebase_core: ^2.24.2
+  firebase_messaging: ^14.7.10
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+  build_runner: ^2.4.7
+  riverpod_generator: ^2.3.9
+  json_serializable: ^6.7.1
+  flutter_launcher_icons: ^0.13.1
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+
+  # fonts:
+  #   - family: Inter
+  #     fonts:
+  #       - asset: assets/fonts/Inter-Regular.ttf
+  #       - asset: assets/fonts/Inter-SemiBold.ttf
+  #         weight: 600
+  #       - asset: assets/fonts/Inter-Bold.ttf
+  #         weight: 700
