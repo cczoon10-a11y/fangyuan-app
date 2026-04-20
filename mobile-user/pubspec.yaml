@@ -8,6 +8,7 @@ environment:
   flutter: ">=3.16.0"
 
 dependencies:
+  vector_math: 2.1.4
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -57,6 +58,7 @@ dependencies:
   firebase_messaging: ^14.7.10
 
 dev_dependencies:
+  vector_math: 2.1.4
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.1
@@ -84,3 +86,8 @@ flutter:
 
 dependency_overrides:
   vector_math: 2.1.4
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/icon.png"
