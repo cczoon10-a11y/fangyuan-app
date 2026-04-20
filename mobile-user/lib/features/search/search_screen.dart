@@ -32,7 +32,7 @@ class _SearchScreenState extends State<SearchScreen> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: AppColors.textPrimary),
-          onTap: () => context.pop(),
+          onPressed: () => context.pop(),
         ),
         titleSpacing: 0,
         title: Container(

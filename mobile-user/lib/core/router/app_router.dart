@@ -27,15 +27,12 @@ final appRouter = GoRouter(
     GoRoute(path: '/search', builder: (_, __) => const SearchScreen()),
     GoRoute(
       path: '/listings',
-      builder: (ctx, state) => ListingsScreen(
-        sectionId: int.tryParse(state.uri.queryParameters['section'] ?? ''),
-        keyword: state.uri.queryParameters['keyword'],
-      ),
+      builder: (ctx, state) => const ListingsScreen(),
     ),
     GoRoute(
       path: '/listings/:id',
       builder: (ctx, state) => ListingDetailScreen(
-        id: int.parse(state.pathParameters['id']!),
+        id: state.pathParameters['id']!,
       ),
     ),
     GoRoute(path: '/login', builder: (_, __) => const LoginScreen()),

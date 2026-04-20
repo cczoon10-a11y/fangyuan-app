@@ -5,6 +5,21 @@ import 'core/theme/app_theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Material(
+      child: Container(
+        color: Colors.black,
+        padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+        child: SingleChildScrollView(
+          child: Text(
+            details.exceptionAsString() + "\n" + (details.stack?.toString() ?? ""),
+            style: const TextStyle(color: Colors.redAccent, fontSize: 14),
+          ),
+        ),
+      ),
+    );
+  };
+
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

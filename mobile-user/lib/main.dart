@@ -6,6 +6,21 @@ import 'core/router/app_router.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Material(
+      child: Container(
+        color: Colors.black,
+        padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+        child: SingleChildScrollView(
+          child: Text(
+            details.exceptionAsString() + "\n" + (details.stack?.toString() ?? ""),
+            style: const TextStyle(color: Colors.redAccent, fontSize: 14),
+          ),
+        ),
+      ),
+    );
+  };
+
 
   // 竖屏锁定(可改)
   SystemChrome.setPreferredOrientations([

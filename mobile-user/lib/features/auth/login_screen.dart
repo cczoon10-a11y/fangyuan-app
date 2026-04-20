@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.close, color: AppColors.textPrimary),
-          onTap: () => context.go('/home'),
+          onPressed: () => context.go('/home'),
         ),
       ),
       body: SafeArea(
